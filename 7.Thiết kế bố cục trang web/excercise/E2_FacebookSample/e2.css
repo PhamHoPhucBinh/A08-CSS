@@ -1,0 +1,133 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Bernard MT Condensed", sans-serif;
+}
+
+#header {
+    background-color: cornflowerblue;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#header h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+#header a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+#content {
+    display: flex;
+    margin: 20px;
+}
+
+#left-column {
+    width: 25%;
+    margin-right: 20px;
+}
+
+#right-column {
+    width: 75%;
+}
+
+#left-column h3 {
+    margin-top: 0;
+}
+
+#left-column ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#left-column li {
+    margin-bottom: 10px;
+}
+
+#left-column a {
+    color: #3b5998;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+#left-column a:hover {
+    text-decoration: underline;
+}
+
+#right-column h2 {
+    margin-top: 0;
+    font-size: 24px;
+}
+
+#right-column .post {
+    margin-bottom: 20px;
+}
+
+#right-column .post h3 {
+    margin-top: 0;
+    font-size: 18px;
+}
+
+#right-column .post p {
+    margin-top: 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+#right-column .post a {
+    color: #3b5998;
+    text-decoration: none;
+}
+
+#right-column .post a:hover {
+    text-decoration: underline;
+}
+
+#right-column form {
+    margin-bottom: 20px;
+}
+
+#right-column label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+#right-column input[type="text"], #right-column input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+
+#right-column button[type="submit"] {
+    background-color: #3b5998;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#right-column button[type="submit"]:hover {
+    background-color: #2d4373;
+}
+
+#footer {
+    background-color: #f2f2f2;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 20px;
+}
