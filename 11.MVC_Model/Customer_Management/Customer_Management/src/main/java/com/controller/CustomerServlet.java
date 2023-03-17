@@ -29,6 +29,7 @@ public class CustomerServlet extends HttpServlet {
                 editCustomer(request, response);
                 break;
             case "delete":
+                deleteCustomer(request, response);
                 break;
             default:
 
@@ -39,6 +40,12 @@ public class CustomerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String sId = request.getParameter("id");
+        if (sId != null) {
+            viewCustomer(request,response);
+        }
+
+
         String action = request.getParameter("action");
         if (action == null) {
             action = "";
@@ -48,11 +55,13 @@ public class CustomerServlet extends HttpServlet {
                 showCreateForm(request, response);
                 break;
             case "edit":
-                showEditForm(request,response);
+                showEditForm(request, response);
                 break;
             case "delete":
+                showDeleteForm(request, response);
                 break;
             case "view":
+                viewCustomer(request,response);
                 break;
             default:
                 listCustomers(request, response);
@@ -150,12 +159,13 @@ public class CustomerServlet extends HttpServlet {
             e.printStackTrace();
         }
     }
+
     // TODO: 17-Mar-23 : Delete Function
     private void showDeleteForm(HttpServletRequest request, HttpServletResponse response) {
         int id = Integer.parseInt(request.getParameter("id"));
         Customer customer = this.customerService.findById(id);
         RequestDispatcher dispatcher;
-        if(customer == null){
+        if (customer == null) {
             dispatcher = request.getRequestDispatcher("error-404.jsp");
         } else {
             request.setAttribute("customer", customer);
@@ -169,11 +179,12 @@ public class CustomerServlet extends HttpServlet {
             e.printStackTrace();
         }
     }
+
     private void deleteCustomer(HttpServletRequest request, HttpServletResponse response) {
         int id = Integer.parseInt(request.getParameter("id"));
         Customer customer = this.customerService.findById(id);
         RequestDispatcher dispatcher;
-        if(customer == null){
+        if (customer == null) {
             dispatcher = request.getRequestDispatcher("error-404.jsp");
         } else {
             this.customerService.remove(id);
@@ -182,6 +193,26 @@ public class CustomerServlet extends HttpServlet {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    // TODO: 17-Mar-23 View Function
+    private void viewCustomer(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        Customer customer = this.customerService.findById(id);
+        RequestDispatcher dispatcher;
+        if (customer == null) {
+            dispatcher = request.getRequestDispatcher("404-error.jsp");
+        } else {
+            request.setAttribute("customer", customer);
+            dispatcher = request.getRequestDispatcher("customer/view.jsp");
+        }
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

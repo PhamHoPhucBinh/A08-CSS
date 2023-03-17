@@ -16,8 +16,11 @@
 <p>
     <a href="/customers?action=create">Create new Customer</a>
 </p>
+<p><input type="number" name="id" id="ipSearch"></p>
+<button onclick="fcSearch()">Search</button>
 <table border="1">
     <tr>
+        <td>ID</td>
         <td>Name</td>
         <td>Email</td>
         <td>Address</td>
@@ -26,13 +29,21 @@
     </tr>
     <c:forEach items='${customers}' var="customer">
         <tr>
-            <td><a href="/customer>action?view&id=${customer.getId()}">${customer.getName()}</a></td>
+            <td>${customer.id}</td>
+            <td><a href="/customers?action=view&id=${customer.getId()}">${customer.getName()}</a></td>
             <td>${customer.getEmail()}</td>
             <td>${customer.getAddress()}</td>
-            <td><a href="/customer?action=edit&id=${customer.getId()}">edit</a></td>
-            <td><a href="/customer?action=delete&id=${customer.getId()}">delete</a></td>
+            <td><a href="/customers?action=edit&id=${customer.getId()}">edit</a></td>
+            <td><a href="/customers?action=delete&id=${customer.getId()}">delete</a></td>
         </tr>
     </c:forEach>
 </table>
+
+<script>
+    function fcSearch(){
+        // alert("id= " + document.getElementById('ipSearch').value);
+        location.href = "/customers?id=" + document.getElementById('ipSearch').value;
+    }
+</script>
 </body>
 </html>
