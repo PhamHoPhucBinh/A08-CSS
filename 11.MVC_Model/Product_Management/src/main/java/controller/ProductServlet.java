@@ -88,7 +88,7 @@ public class ProductServlet extends HttpServlet {
     }
 
     public class IDGenerator {
-        private int counter = 0;
+        private int counter = 3;
         private ProductServiceImpl productService;
 
         public int generateID() {
@@ -104,7 +104,7 @@ public class ProductServlet extends HttpServlet {
         String productDetails = request.getParameter("details");
         String productManufacturer = request.getParameter("manufacturer");
         int id = idGenerator.generateID();
-
+//        int id = (int) (Math.random() * 10000);
         Product product = new Product(id, productName, productPrice, productDetails, productManufacturer);
         this.productService.save(product);
         RequestDispatcher dispatcher = request.getRequestDispatcher("Product/create.jsp");
