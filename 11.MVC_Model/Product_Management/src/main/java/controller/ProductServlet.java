@@ -12,7 +12,7 @@ import java.util.List;
 
 @WebServlet(name = "ProductServlet", value = "/ProductServlet")
 public class ProductServlet extends HttpServlet {
-    private final ProductService productService = new ProductServiceImpl();
+    private ProductService productService = new ProductServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -62,7 +62,7 @@ public class ProductServlet extends HttpServlet {
 
 
     // TODO: 17-Mar-23 : List Function
-    private void listProduct(HttpServletRequest request, HttpServletResponse response) {
+    private void listProduct(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         List<Product> products = this.productService.findAll();
         request.setAttribute("products", products);
         RequestDispatcher dispatcher = request.getRequestDispatcher("Product/list.jsp");
@@ -73,6 +73,11 @@ public class ProductServlet extends HttpServlet {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+//        request.setAttribute("products", products);
+//        request.getRequestDispatcher("/Product/list.jsp").forward(request, response);
+//
+////        response.sendRedirect("/Product/list.jsp");
     }
 
     // TODO: 21-Mar-23 Create Function
@@ -88,12 +93,10 @@ public class ProductServlet extends HttpServlet {
     }
 
     public class IDGenerator {
-        private int counter = 3;
-        private ProductServiceImpl productService;
-
+        int lastId = productService.findAll().get(productService.findAll().size() - 1).getId();
         public int generateID() {
-            counter++;
-            return counter;
+            lastId++;
+            return lastId;
         }
     }
 
@@ -105,9 +108,10 @@ public class ProductServlet extends HttpServlet {
         String productManufacturer = request.getParameter("manufacturer");
         int id = idGenerator.generateID();
 //        int id = (int) (Math.random() * 10000);
+
         Product product = new Product(id, productName, productPrice, productDetails, productManufacturer);
         this.productService.save(product);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("Product/create.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/Product/create.jsp");
         request.setAttribute("message", "New product was created");
         try {
             dispatcher.forward(request, response);
@@ -152,11 +156,11 @@ public class ProductServlet extends HttpServlet {
             product.setName(productName);
             product.setPrice(productPrice);
             product.setDetails(productDetails);
-            product.setManufactor(productManufacturer);
+            product.setManufacturer(productManufacturer);
             this.productService.update(id, product);
             request.setAttribute("product", product);
             request.setAttribute("message", "Update Successfully");
-            dispatcher = request.getRequestDispatcher("Product/edit.jsp");
+            dispatcher = request.getRequestDispatcher("/Product/edit.jsp");
         }
         try {
             dispatcher.forward(request, response);

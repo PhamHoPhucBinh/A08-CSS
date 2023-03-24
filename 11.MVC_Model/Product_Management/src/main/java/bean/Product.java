@@ -7,14 +7,14 @@ int id;
 String name;
 float price;
 String details;
-String manufactor;
+String manufacturer;
 
-    public Product(int id, String name, float price, String details, String manufactor) {
+    public Product(int id, String name, float price, String details, String manufacturer) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.details = details;
-        this.manufactor = manufactor;
+        this.manufacturer = manufacturer;
     }
     public Product(){};
 
@@ -50,11 +50,11 @@ String manufactor;
         this.details = details;
     }
 
-    public String getManufactor() {
-        return manufactor;
+    public String getManufacturer() {
+        return manufacturer;
     }
 
-    public void setManufactor(String manufactor) {
-        this.manufactor = manufactor;
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
     }
 }

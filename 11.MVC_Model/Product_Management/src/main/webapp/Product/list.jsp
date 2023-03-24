@@ -31,9 +31,9 @@
                 <td><a href="/ProductServlet?action=view&id=${product.getId()}">${product.getName()}</a></td>
                 <td>${product.getPrice()}</td>
                 <td>${product.getDetails()}</td>
-                <td>${product.getManufactor()}</td>
-                <td><a href="/ProductServlet?action=edit?id=${product.getId()}">Edit</a></td>
-                <td><a href="/ProductServlet?action=delete?id=${product.getId()}">Delete</a></td>
+                <td>${product.getManufacturer()}</td>
+                <td><a href="/ProductServlet?action=edit&id=${product.getId()}">Edit</a></td>
+                <td><a href="/ProductServlet?action=delete&id=${product.getId()}">Delete</a></td>
             </tr>
         </c:forEach>
     </table>

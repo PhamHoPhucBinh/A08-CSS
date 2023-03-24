@@ -42,10 +42,8 @@ public class CustomerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String sId = request.getParameter("id");
         if (sId != null) {
-            viewCustomer(request,response);
+            viewCustomer(request, response);
         }
-
-
         String action = request.getParameter("action");
         if (action == null) {
             action = "";
@@ -61,7 +59,7 @@ public class CustomerServlet extends HttpServlet {
                 showDeleteForm(request, response);
                 break;
             case "view":
-                viewCustomer(request,response);
+                viewCustomer(request, response);
                 break;
             default:
                 listCustomers(request, response);

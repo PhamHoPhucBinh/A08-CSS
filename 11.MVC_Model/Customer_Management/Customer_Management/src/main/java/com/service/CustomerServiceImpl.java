@@ -9,7 +9,6 @@ import java.util.Map;
 
 public class CustomerServiceImpl implements CustomerService {
     private static Map<Integer, Customer> customers;
-
     static {
         customers = new HashMap<>();
         customers.put(1,new Customer(1,"James","jame@gmail.com","USA"));
