@@ -1,6 +1,7 @@
 package controller;
 
 import bean.Product;
+import dao.ProductDAO;
 import service.ProductService;
 import service.ProductServiceImpl;
 
@@ -8,35 +9,56 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "ProductServlet", value = "/ProductServlet")
 public class ProductServlet extends HttpServlet {
+
+    private static final long serialVersionUID = 1L;
+    private ProductDAO productDAO;
+
+    public void init() {
+        productDAO = new ProductDAO();
+    }
+
     private ProductService productService = new ProductServiceImpl();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String action = request.getParameter("action");
         if (action == null) {
             action = "";
         }
-        switch (action) {
-            case "create":
-                showCreateForm(request, response);
-                break;
-            case "edit":
-                showEditForm(request, response);
-                break;
-            case "delete":
-                showDeleteForm(request, response);
-                break;
-            case "view":
-                viewProduct(request, response);
-                break;
-            default:
-                listProduct(request, response);
-                break;
+        try {
+            switch (action) {
+                case "create":
+                    showNewForm(request, response);
+                    break;
+                case "edit":
+                    showEditForm(request, response);
+                    break;
+                case "delete":
+                    showDeleteForm(request, response);
+                    break;
+                case "view":
+                    viewProduct(request, response);
+                    break;
+                default:
+                    listProduct(request, response);
+                    break;
+            }
+        } catch (SQLException ex) {
+            throw new ServletException(ex);
         }
+
     }
 
     @Override
@@ -45,130 +67,81 @@ public class ProductServlet extends HttpServlet {
         if (action == null) {
             action = "";
         }
-        switch (action) {
-            case "create":
-                createProduct(request, response);
-                break;
-            case "edit":
-                udpateProduct(request, response);
-                break;
-            case "delete":
-                deleteProduct(request, response);
-                break;
-            default:
-                break;
+        try {
+            switch (action) {
+                case "create":
+                    insertProduct(request, response);
+                    break;
+                case "edit":
+                    udpateProduct(request, response);
+                    break;
+                case "delete":
+                    deleteProduct(request, response);
+                    break;
+                default:
+                    break;
+            }
+        } catch (SQLException ex) {
+            throw new ServletException(ex);
         }
     }
 
 
     // TODO: 17-Mar-23 : List Function
-    private void listProduct(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        List<Product> products = this.productService.findAll();
-        request.setAttribute("products", products);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("Product/list.jsp");
-        try {
-            dispatcher.forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-//        request.setAttribute("products", products);
-//        request.getRequestDispatcher("/Product/list.jsp").forward(request, response);
-//
-////        response.sendRedirect("/Product/list.jsp");
+    private void listProduct(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException, SQLException {
+        List<Product> listProduct = productDAO.selectAllProduct();
+        request.setAttribute("listProduct", listProduct);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("Product/list.jsp");
+        dispatcher.forward(request, response);
+
     }
 
     // TODO: 21-Mar-23 Create Function
-    private void showCreateForm(HttpServletRequest request, HttpServletResponse response) {
+
+    private void showNewForm(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("Product/create.jsp");
-        try {
-            dispatcher.forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        dispatcher.forward(request, response);
     }
 
-    public class IDGenerator {
-        int lastId = productService.findAll().get(productService.findAll().size() - 1).getId();
-        public int generateID() {
-            lastId++;
-            return lastId;
-        }
-    }
-
-    private void createProduct(HttpServletRequest request, HttpServletResponse response) {
-        IDGenerator idGenerator = new IDGenerator();
-        String productName = request.getParameter("name");
-        float productPrice = Float.parseFloat(request.getParameter("price"));
-        String productDetails = request.getParameter("details");
-        String productManufacturer = request.getParameter("manufacturer");
-        int id = idGenerator.generateID();
-//        int id = (int) (Math.random() * 10000);
-
-        Product product = new Product(id, productName, productPrice, productDetails, productManufacturer);
-        this.productService.save(product);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/Product/create.jsp");
-        request.setAttribute("message", "New product was created");
-        try {
-            dispatcher.forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void insertProduct(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        float price = Float.parseFloat(request.getParameter("price"));
+        String detail = request.getParameter("details");
+        String manufacturer = request.getParameter("manufacturer");
+        Product newProduct = new Product(id, name, price, detail, manufacturer);
+        productDAO.insertProduct(newProduct);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("Product/create.jsp");
+        dispatcher.forward(request, response);
     }
 
     // TODO: 21-Mar-23 : Edit Function :
-    private void showEditForm(HttpServletRequest request, HttpServletResponse response) {
+    private void showEditForm(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        Product product = this.productService.findByID(id);
-        RequestDispatcher dispatcher;
-        if (product == null) {
-            dispatcher = request.getRequestDispatcher("error-404.jsp");
-        } else {
-            request.setAttribute("product", product);
-            dispatcher = request.getRequestDispatcher("Product/edit.jsp");
-        }
-        try {
-            dispatcher.forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Product existingProduct = productDAO.selectProduct(id);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("Product/edit.jsp");
+        request.setAttribute("product", existingProduct);
+        dispatcher.forward(request, response);
+
     }
 
-    private void udpateProduct(HttpServletRequest request, HttpServletResponse response) {
+    private void udpateProduct(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
-        String productName = request.getParameter("name");
-        float productPrice = Float.parseFloat(request.getParameter("price"));
-        String productDetails = request.getParameter("details");
-        String productManufacturer = request.getParameter("manufacturer");
-        Product product = this.productService.findByID(id);
-        RequestDispatcher dispatcher;
-        if (product == null) {
-            dispatcher = request.getRequestDispatcher("error-404.jsp");
-        } else {
-            product.setName(productName);
-            product.setPrice(productPrice);
-            product.setDetails(productDetails);
-            product.setManufacturer(productManufacturer);
-            this.productService.update(id, product);
-            request.setAttribute("product", product);
-            request.setAttribute("message", "Update Successfully");
-            dispatcher = request.getRequestDispatcher("/Product/edit.jsp");
-        }
-        try {
-            dispatcher.forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String name = request.getParameter("name");
+        float price = Float.parseFloat(request.getParameter("price"));
+        String detail = request.getParameter("details");
+        String manufacturer = request.getParameter("manufacturer");
+
+        Product book = new Product(id, name, price, detail, manufacturer);
+        productDAO.updateProduct(book);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("Product/edit.jsp");
+        dispatcher.forward(request, response);
     }
 
     // TODO: 21-Mar-23 Delete Function
@@ -191,21 +164,18 @@ public class ProductServlet extends HttpServlet {
         }
     }
 
-    private void deleteProduct(HttpServletRequest request, HttpServletResponse response) {
+    private void deleteProduct(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
-        Product product = this.productService.findByID(id);
-        RequestDispatcher dispatcher;
-        if (product == null) {
-            dispatcher = request.getRequestDispatcher("error-404.jsp");
-        } else {
-            this.productService.remove(id);
-            try {
-                response.sendRedirect("/ProductServlet");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        productDAO.deleteProduct(id);
+
+        List<Product> listProduct = productDAO.selectAllProduct();
+        request.setAttribute("listProduct", listProduct);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("Product/list.jsp");
+        dispatcher.forward(request, response);
     }
+
+
     // TODO: 21-Mar-23 View Function:
 
     private void viewProduct(HttpServletRequest request, HttpServletResponse response) {

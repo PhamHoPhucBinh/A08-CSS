@@ -1,42 +1,41 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: HP
-  Date: 21-Mar-23
-  Time: 8:56 AM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <title>listProduct</title>
+    <title>Product Management Application</title>
 </head>
 <body>
-<h1>Products List</h1>
-<p>
-    <a href="/ProductServlet?action=create">Create new Product</a>
-</p>
-<fieldset>
-    <table border="1">
+<center>
+    <h1>Product Management</h1>
+    <h2>
+        <a href="/ProductServlet?action=create">Add New Product</a>
+    </h2>
+</center>
+<div align="center">
+    <table border="1" cellpadding="5">
+        <caption><h2>List of Products</h2></caption>
         <tr>
-            <td>Product Name:</td>
-            <td>Product Price:</td>
-            <td>Product Detail</td>
-            <td>Product Manufactor</td>
-            <td>Edit</td>
-            <td>Del</td>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Detail</th>
+            <th>Manufacturer</th>
         </tr>
-        <c:forEach items='${requestScope["products"]}' var="product">
+        <c:forEach var="product" items="${listProduct}">
             <tr>
-                <td><a href="/ProductServlet?action=view&id=${product.getId()}">${product.getName()}</a></td>
-                <td>${product.getPrice()}</td>
-                <td>${product.getDetails()}</td>
-                <td>${product.getManufacturer()}</td>
-                <td><a href="/ProductServlet?action=edit&id=${product.getId()}">Edit</a></td>
-                <td><a href="/ProductServlet?action=delete&id=${product.getId()}">Delete</a></td>
+                <td><c:out value="${product.id}"/></td>
+                <td><c:out value="${product.name}"/></td>
+                <td><c:out value="${product.price}"/></td>
+                <td><c:out value="${product.detail}"/></td>
+                <td><c:out value="${product.manufacturer}"/></td>
+                <td>
+                    <a href="/ProductServlet?action=edit&id=${product.id}">Edit</a>
+                    <a href="/ProductServlet?action=delete&id=${product.id}">Delete</a>
+                </td>
             </tr>
         </c:forEach>
     </table>
-</fieldset>
+</div>
 </body>
 </html>
