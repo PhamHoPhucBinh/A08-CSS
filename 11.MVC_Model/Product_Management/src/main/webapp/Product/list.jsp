@@ -27,7 +27,7 @@
                 <td><c:out value="${product.id}"/></td>
                 <td><c:out value="${product.name}"/></td>
                 <td><c:out value="${product.price}"/></td>
-                <td><c:out value="${product.detail}"/></td>
+                <td><c:out value="${product.details}"/></td>
                 <td><c:out value="${product.manufacturer}"/></td>
                 <td>
                     <a href="/ProductServlet?action=edit&id=${product.id}">Edit</a>

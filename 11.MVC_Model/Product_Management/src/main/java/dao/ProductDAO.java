@@ -10,8 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.sun.deploy.uitoolkit.impl.awt.AWTClientPrintHelper.print;
-
 public class ProductDAO implements IProductDAO {
     private String jdbcURL = "jdbc:mysql://localhost:3306/product?useSSL=false";
     private String jdbcUsername = "root";

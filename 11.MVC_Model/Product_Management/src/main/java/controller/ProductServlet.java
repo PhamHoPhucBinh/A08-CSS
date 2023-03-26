@@ -73,7 +73,7 @@ public class ProductServlet extends HttpServlet {
                     insertProduct(request, response);
                     break;
                 case "edit":
-                    udpateProduct(request, response);
+                    updateProduct(request, response);
                     break;
                 case "delete":
                     deleteProduct(request, response);
@@ -130,7 +130,7 @@ public class ProductServlet extends HttpServlet {
 
     }
 
-    private void udpateProduct(HttpServletRequest request, HttpServletResponse response)
+    private void updateProduct(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
