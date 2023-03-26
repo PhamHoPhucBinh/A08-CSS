@@ -108,12 +108,12 @@ public class ProductServlet extends HttpServlet {
 
     private void insertProduct(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
-        int id = Integer.parseInt(request.getParameter("id"));
+//        int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         float price = Float.parseFloat(request.getParameter("price"));
         String detail = request.getParameter("details");
         String manufacturer = request.getParameter("manufacturer");
-        Product newProduct = new Product(id, name, price, detail, manufacturer);
+        Product newProduct = new Product( name, price, detail, manufacturer);
         productDAO.insertProduct(newProduct);
         RequestDispatcher dispatcher = request.getRequestDispatcher("Product/create.jsp");
         dispatcher.forward(request, response);

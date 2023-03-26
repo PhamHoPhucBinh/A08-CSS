@@ -16,6 +16,13 @@ String manufacturer;
         this.details = details;
         this.manufacturer = manufacturer;
     }
+
+    public Product(String name, float price, String details, String manufacturer){
+        this.name = name;
+        this.price = price;
+        this.details = details;
+        this.manufacturer = manufacturer;
+    }
     public Product(){};
 
     public int getId() {
