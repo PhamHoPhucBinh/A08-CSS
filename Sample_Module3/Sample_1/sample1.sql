@@ -1,6 +1,6 @@
-CREATE DATABASE your_database_name;
+CREATE DATABASE sample1;
 
-USE your_database_name;
+USE sample1;
 
 CREATE TABLE job (
   job_id INT PRIMARY KEY,
@@ -34,7 +34,7 @@ VALUES
   (1, 'John Smith', '1990-02-12', '123 Main St, Anytown, USA', '2020-01-01', '2024-01-01', 8000.0, 1),
   (2, 'Jane Doe', '1995-06-23', '456 Park Ave, Anytown, USA', '2019-05-01', '2024-01-01', 7000.0, 2),
   (3, 'Bob Johnson', '1987-11-10', '789 Elm St, Anytown, USA', '2021-03-01','2024-01-01', 12000.0, 3),
-  (4, 'Sarah Lee', '1992-09-08', '321 Maple St, Anytown, USA', '2018-12-01', '2024-01-01'L, 9000.0, 4),
+  (4, 'Sarah Lee', '1992-09-08', '321 Maple St, Anytown, USA', '2018-12-01', '2024-01-01', 9000.0, 4),
   (5, 'David Kim', '1985-03-18', '654 Oak St, Anytown, USA', '2022-01-01', '2024-01-01', 10000.0, 5);
 
 
