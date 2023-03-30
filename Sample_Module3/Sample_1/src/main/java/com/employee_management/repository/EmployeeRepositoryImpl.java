@@ -10,24 +10,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import static com.employee_management.utility.ConnectionUtil.getConnection;
 
 public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     private JobRepository jobRepository = new JobRepositoryImpl();
 
-    private static final String SELECT_ALL_EMPLOYEE = "select *\n" +
-            "from employee \n" +
-            "\tjoin job on employee.job_id = job.job_id;";
-    private static final String INSERT_EMPLOYEE_SQL = "INSERT INTO employee(id, name , birthday, address, " +
-            "start_date, end_date, salary, job_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String UPDATE_EMPLOYEE_SQL = "update product set name = ?,price= ?, detail =?,manufacturer =? where id = ?;";
-
+    private static final String SELECT_ALL_EMPLOYEE = "select *\n" + "from employee \n";
+    private static final String INSERT_EMPLOYEE_SQL = "INSERT INTO employee( name , birthday, address, " + "start_date, end_date, salary, job_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_EMPLOYEE_SQL = "update employee set name = ?,birthday= ?, address =?,start_date =?,end_date=?,salary=?,job_id where id = ?;";
+    private static final String SELECT_EMPLOYEE_BY_ID = "select id,name,birthday,address,start_date,end_date,salary,job_id from employee where id =?";
+    private static final String DELETE_EMPLOYEE_SQL = "delete from employee where id = ?;";
     @Override
     public void add(Employee employee) {
         System.out.println(INSERT_EMPLOYEE_SQL);
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_EMPLOYEE_SQL)) {
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_EMPLOYEE_SQL)) {
 //            preparedStatement.setInt(1, employee.getId());
             preparedStatement.setString(1, employee.getName());
             preparedStatement.setDate(2, new java.sql.Date(employee.getBirthday().getTime()));
@@ -35,7 +33,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
             preparedStatement.setDate(4, new java.sql.Date(employee.getStartDate().getTime()));
             preparedStatement.setDate(5, new java.sql.Date(employee.getEndDate().getTime()));
             preparedStatement.setFloat(6, employee.getSalary());
-            preparedStatement.setInt(7, employee.getJobID().getjobId());
+            preparedStatement.setInt(7, employee.getJob().getjobId());
             System.out.println(preparedStatement);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -53,20 +51,19 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
             statement.setDate(4, new java.sql.Date(employee.getStartDate().getTime()));
             statement.setDate(5, new java.sql.Date(employee.getEndDate().getTime()));
             statement.setFloat(6, employee.getSalary());
-            statement.setInt(7, employee.getJobID().getjobId());
+            statement.setInt(7, employee.getJob().getjobId());
             rowUpdated = statement.executeUpdate() > 0;
 
         } catch (SQLException e) {
             printSQLException(e);
         }
-        return rowUpdated ;
+        return rowUpdated;
     }
 
     @Override
     public List<Employee> findAll() {
         List<Employee> employeeList = new ArrayList<>();
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_EMPLOYEE)) {
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_EMPLOYEE)) {
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -77,9 +74,9 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
                 Date startDate = new Date(rs.getDate("start_date").getTime());
                 Date endDate = new Date(rs.getDate("end_date").getTime());
                 float salary = rs.getFloat("salary");
-                int jobId = rs.getInt("jobId");
+                int jobId = rs.getInt("job_id");
                 Job job = jobRepository.findById(jobId);
-                employeeList.add(new Employee(id,name,birthday,address,startDate,endDate,salary,job));
+                employeeList.add(new Employee(id, name, birthday, address, startDate, endDate, salary, job));
             }
         } catch (SQLException e) {
             printSQLException(e);
@@ -96,6 +93,8 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     public List<Employee> findByStartDateAndEndDate(Date StartDate, Date EndDate) {
         return null;
     }
+
+
     private void printSQLException(SQLException ex) {
         for (Throwable e : ex) {
             if (e instanceof SQLException) {
@@ -111,4 +110,38 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
             }
         }
     }
+
+    public Employee findById(int id) {
+        Employee employee = null;
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SELECT_EMPLOYEE_BY_ID);) {
+            preparedStatement.setInt(1, id);
+            System.out.println(preparedStatement);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("name");
+                Date birthday = rs.getDate("birthday");
+                String address = rs.getString("address");
+                Date startDate = rs.getDate("start_date");
+                Date endDate = rs.getDate("end_date");
+                float salary = rs.getFloat("salary");
+                int jobId = rs.getInt("jobId");
+                Job job = jobRepository.findById(jobId);
+                employee = new Employee(id, name, birthday, address, startDate, endDate, salary, job);
+            }
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+        return employee;
+    }
+
+    @Override
+    public boolean remove(int id) throws SQLException {
+        boolean rowDeleted;
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE_EMPLOYEE_SQL);) {
+            statement.setInt(1, id);
+            rowDeleted = statement.executeUpdate() > 0;
+        }
+        return rowDeleted;
+    }
+
 }

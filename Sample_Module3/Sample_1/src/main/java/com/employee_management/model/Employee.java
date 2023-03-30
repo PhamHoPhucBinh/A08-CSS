@@ -10,9 +10,9 @@ public class Employee {
     private Date startDate;
     private Date endDate;
     private float salary;
-    private Job jobID;
+    private Job job;
 
-    public Employee(int id, String name, Date birthday, String address, Date startDate, Date endDate, float salary, Job jobID) {
+    public Employee(int id, String name, Date birthday, String address, Date startDate, Date endDate, float salary, Job job) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;
@@ -20,17 +20,17 @@ public class Employee {
         this.startDate = startDate;
         this.endDate = endDate;
         this.salary = salary;
-        this.jobID = jobID;
+        this.job = job;
     }
 
-    public Employee(String name, Date birthday, String address, Date startDate, Date endDate, float salary, Job jobID) {
+    public Employee(String name, Date birthday, String address, Date startDate, Date endDate, float salary, Job job) {
         this.name = name;
         this.birthday = birthday;
         this.address = address;
         this.startDate = startDate;
         this.endDate = endDate;
         this.salary = salary;
-        this.jobID = jobID;
+        this.job = job;
     }
 
     public Employee() {
@@ -92,11 +92,11 @@ public class Employee {
         this.salary = salary;
     }
 
-    public Job getJobID() {
-        return jobID;
+    public Job getJob() {
+        return job;
     }
 
-    public void setJobID(Job jobID) {
-        this.jobID = jobID;
+    public void setJob(Job jobID) {
+        this.job = job;
     }
 }

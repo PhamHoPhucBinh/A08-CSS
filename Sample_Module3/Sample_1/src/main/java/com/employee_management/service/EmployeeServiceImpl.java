@@ -4,19 +4,26 @@ import com.employee_management.model.Employee;
 import com.employee_management.repository.EmployeeRepository;
 import com.employee_management.repository.EmployeeRepositoryImpl;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-public class EmployeeServiceImpl implements EmployeeService{
+public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRepository repository = new EmployeeRepositoryImpl();
+
     @Override
     public void add(Employee employee) {
-
+        repository.add(employee);
     }
 
     @Override
-    public void update(Employee employee) {
-        repository.update(employee);
+    public boolean update(Employee employee) {
+        return false;
+    }
+
+    @Override
+    public Employee findById(int id) {
+        return null;
     }
 
     @Override
@@ -25,12 +32,17 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public List<Employee> findByJobName(String jobName) {
-        return repository.findByJobName(jobName);
+    public void remove(int id) throws SQLException {
+        repository.remove(id);
     }
 
     @Override
-    public List<Employee> findByStartDateAndEndDate(Date startDate, Date endDate) {
-        return repository.findByStartDateAndEndDate(startDate, endDate);
+    public List<Employee> findByJobName(String jobName) {
+        return null;
+    }
+
+    @Override
+    public List<Employee> findByStartDateAndEndDate(Date StartDate, Date EndDate) {
+        return null;
     }
 }
