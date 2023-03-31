@@ -48,6 +48,8 @@ public class EmployeeServlet extends HttpServlet {
                 case "delete":
                     showDeleteForm(request, response);
                     break;
+                case "search":
+                    searchData(request,response);
                 default:
                     listData(request, response);
                     break;
@@ -55,6 +57,13 @@ public class EmployeeServlet extends HttpServlet {
         } catch (SQLException ex) {
             throw new ServletException(ex);
         }
+    }
+
+    private void searchData(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, SQLException {
+        List<Employee> listEmployee = employeeService.findAll();
+        request.setAttribute("listEmployee", listEmployee);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("user/search.jsp");
+        dispatcher.forward(request, response);
     }
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -69,6 +78,7 @@ public class EmployeeServlet extends HttpServlet {
         Employee existingEmployee = employeeService.findById(id);
         RequestDispatcher dispatcher = request.getRequestDispatcher("user/edit.jsp");
         request.setAttribute("employee", existingEmployee);
+        request.setAttribute("listJob", jobService.findAll());
         dispatcher.forward(request, response);
     }
 
@@ -76,12 +86,8 @@ public class EmployeeServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         Employee employee = this.employeeService.findById(id);
         RequestDispatcher dispatcher;
-        if (employee == null) {
-            dispatcher = request.getRequestDispatcher("error-404.jsp");
-        } else {
-            request.setAttribute("employee", employee);
-            dispatcher = request.getRequestDispatcher("user/delete.jsp");
-        }
+        request.setAttribute("employee", employee);
+        dispatcher = request.getRequestDispatcher("user/delete.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (ServletException e) {
@@ -112,7 +118,7 @@ public class EmployeeServlet extends HttpServlet {
                     addData(request, response);
                     break;
                 case "edit":
-//                    updateData(request, response);
+                    updateData(request, response);
                     break;
                 case "delete":
                     deleteData(request, response);

@@ -23,7 +23,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee findById(int id) {
-        return null;
+        return repository.findById(id);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> findByJobName(String jobName) {
-        return null;
+        return repository.findByJobName(jobName);
     }
 
     @Override

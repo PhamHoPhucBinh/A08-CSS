@@ -20,14 +20,12 @@ public class JobRepositoryImpl implements JobRepository {
     @Override
     public Job findById(int jobId) {
         try (Connection connection = getConnection();
-
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_JOB_BY_ID)) {
             System.out.println(preparedStatement);
             preparedStatement.setInt(1, jobId);
-            // Step 3: Execute the query or update query
+
             ResultSet rs = preparedStatement.executeQuery();
 
-            // Step 4: Process the ResultSet object.
             if (rs.next()) {
                 String jobName = rs.getString("job_name");
                 float minSalary = rs.getFloat("min_salary");

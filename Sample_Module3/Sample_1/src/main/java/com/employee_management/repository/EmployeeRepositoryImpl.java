@@ -22,6 +22,9 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     private static final String UPDATE_EMPLOYEE_SQL = "update employee set name = ?,birthday= ?, address =?,start_date =?,end_date=?,salary=?,job_id where id = ?;";
     private static final String SELECT_EMPLOYEE_BY_ID = "select id,name,birthday,address,start_date,end_date,salary,job_id from employee where id =?";
     private static final String DELETE_EMPLOYEE_SQL = "delete from employee where id = ?;";
+    //    private static final String SEARCH_ALL_JOB_NAME = "select * \n" + "from employee as employee join job on employee.job_id =job.job_id\n" + "where job_name like ? ";
+    private static final String SEARCH_ALL_JOB_NAME = "select * \n" + "from employee as e join job j on e.job_id =j.job_id\n" + "where job_name like ? ";
+
     @Override
     public void add(Employee employee) {
         System.out.println(INSERT_EMPLOYEE_SQL);
@@ -86,7 +89,29 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     @Override
     public List<Employee> findByJobName(String jobName) {
-        return null;
+
+        List<Employee> employeeList = new ArrayList<>();
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_ALL_JOB_NAME)) {
+            preparedStatement.setString(1, jobName + "%");
+            System.out.println(preparedStatement);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                Date birthday = new Date(rs.getDate("birthday").getTime());
+                String address = rs.getString("address");
+                Date startDate = new Date(rs.getDate("start_date").getTime());
+                Date endDate = new Date(rs.getDate("end_date").getTime());
+                float salary = rs.getFloat("salary");
+                int jobId = rs.getInt("job_id");
+                Job job = jobRepository.findById(jobId);
+                employeeList.add(new Employee(id, name, birthday, address, startDate, endDate, salary, job));
+            }
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+        return employeeList;
+
     }
 
     @Override
@@ -124,7 +149,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
                 Date startDate = rs.getDate("start_date");
                 Date endDate = rs.getDate("end_date");
                 float salary = rs.getFloat("salary");
-                int jobId = rs.getInt("jobId");
+                int jobId = rs.getInt("job_id");
                 Job job = jobRepository.findById(jobId);
                 employee = new Employee(id, name, birthday, address, startDate, endDate, salary, job);
             }
