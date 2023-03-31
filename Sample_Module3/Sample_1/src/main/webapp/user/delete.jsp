@@ -30,6 +30,13 @@
   <!-- Thêm thư viện JavaScript của Bootstrap -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
+<style>
+  body {
+    background-image: url("https://img.freepik.com/free-vector/gradient-hexagonal-background_23-2148932756.jpg?w=996&t=st=1680235792~exp=1680236392~hmac=00eeb5556276b7e64d7683f45ae997d7721bb54b40828bf1ecc215ea66cad60a");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+</style>
 <body>
 <div class="container">
   <h1>Xác nhận xóa user</h1>

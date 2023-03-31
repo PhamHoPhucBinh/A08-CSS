@@ -50,6 +50,7 @@ public class EmployeeServlet extends HttpServlet {
                     break;
                 case "search":
                     searchData(request,response);
+                    break;
                 default:
                     listData(request, response);
                     break;
@@ -60,10 +61,10 @@ public class EmployeeServlet extends HttpServlet {
     }
 
     private void searchData(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, SQLException {
-        List<Employee> listEmployee = employeeService.findAll();
-        request.setAttribute("listEmployee", listEmployee);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("user/search.jsp");
-        dispatcher.forward(request, response);
+        String jobName = request.getParameter("job_name");
+        List<Employee> jobList = employeeService.findByJobName(jobName);
+        request.setAttribute("result",jobList);
+        request.getRequestDispatcher("user/search.jsp").forward(request, response);
     }
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

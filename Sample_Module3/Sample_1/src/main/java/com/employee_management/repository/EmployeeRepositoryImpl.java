@@ -91,7 +91,6 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     @Override
     public List<Employee> findByJobName(String jobName) {
-
         List<Employee> employeeList = new ArrayList<>();
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_ALL_JOB_NAME)) {
             preparedStatement.setString(1, jobName + "%");

@@ -114,7 +114,6 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
-
         .header {
             font-family: Broadway, sans-serif;
             text-align: center;
@@ -137,7 +136,7 @@
     <div class="search">
         <form action="/EmployeeServlet?action=search" method="get">
             <h2>Search Employee</h2>
-            <input type="text" name="job_name" placeholder="searching for job name">
+            <input type="text" name="job_name" id="job_name" placeholder="searching for job name">
             <input type="submit" value="search" name="action">
         </form>
     </div>

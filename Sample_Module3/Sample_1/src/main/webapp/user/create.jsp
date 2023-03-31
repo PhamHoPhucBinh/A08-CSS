@@ -118,6 +118,12 @@
     label {
         font-weight: bold;
     }
+
+    body {
+        background-image: url("https://img.freepik.com/free-vector/gradient-hexagonal-background_23-2148932756.jpg?w=996&t=st=1680235792~exp=1680236392~hmac=00eeb5556276b7e64d7683f45ae997d7721bb54b40828bf1ecc215ea66cad60a");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 </style>
 <body>
 <div class="container">
@@ -134,54 +140,46 @@
             <form method="post">
                 <div class="form-group">
                     <label for="name">Employee Name:</label>
-                    <input type="text" class="form-control" id="name" name="name"
+                    <input onkeydown="check('name')" type="text" class="form-control" id="name" name="name"
                            value="<c:out value='${employee.name}' />" required>
                     <div class="valid-feedback">Valid input!</div>
                     <div class="invalid-feedback">Please provide a valid input!</div>
                 </div>
-                <script>
-                    // Get the input element
-                    const input = document.getElementById('name');
-
-                    // Add an event listener to listen for input changes
-                    input.addEventListener('input', function () {
-                        // Check if the input is valid
-                        if (input.checkValidity()) {
-                            // If it is, add the 'is-valid' class and remove the 'is-invalid' class
-                            input.classList.add('is-valid');
-                            input.classList.remove('is-invalid');
-                        } else {
-                            // If it is not, add the 'is-invalid' class and remove the 'is-valid' class
-                            input.classList.add('is-invalid');
-                            input.classList.remove('is-valid');
-                        }
-                    });
-                </script>
-
                 <div class="form-group">
                     <label for="birthday">Birthday:</label>
-                    <input type="date" class="form-control" id="birthday" name="birthday"
-                           value="<c:out value='${employee.birthday}' />"/>
+                    <input oninput="check('birthday')" type="date" class="form-control" id="birthday" name="birthday"
+                           value="<c:out value='${employee.birthday}' />" required>
+                    <div class="valid-feedback">Valid input!</div>
+                    <div class="invalid-feedback">Please provide a valid input!</div>
                 </div>
                 <div class="form-group">
                     <label for="address">Address:</label>
-                    <input type="text" class="form-control" id="address" name="address"
-                           value="<c:out value='${employee.address}' />"/>
+                    <input onkeydown="check('address')" type="text" class="form-control" id="address" name="address"
+                           value="<c:out value='${employee.address}' />" required>
+                    <div class="valid-feedback">Valid input!</div>
+                    <div class="invalid-feedback">Please provide a valid input!</div>
                 </div>
                 <div class="form-group">
                     <label for="start_date">Start Date:</label>
-                    <input type="date" class="form-control" id="start_date" name="start_date"
-                           value="<c:out value='${employee.startDate}' />"/>
+                    <input oninput="check('start_date')" type="date" class="form-control" id="start_date"
+                           name="start_date"
+                           value="<c:out value='${employee.startDate}' />" required>
+                    <div class="valid-feedback">Valid input!</div>
+                    <div class="invalid-feedback">Please provide a valid input!</div>
                 </div>
                 <div class="form-group">
                     <label for="end_date">End Date:</label>
-                    <input type="date" class="form-control" id="end_date" name="end_date"
-                           value="<c:out value='${employee.endDate}' />"/>
+                    <input oninput="check('end_date')" type="date" class="form-control" id="end_date" name="end_date"
+                           value="<c:out value='${employee.endDate}' />" required>
+                    <div class="valid-feedback">Valid input!</div>
+                    <div class="invalid-feedback">Please provide a valid input!</div>
                 </div>
                 <div class="form-group">
                     <label for="salary">Salary:</label>
-                    <input type="text" class="form-control" id="salary" name="salary"
-                           value="<c:out value='${employee.salary}'/>"/>
+                    <input onkeydown="check('salary')" type="number" class="form-control" id="salary" name="salary"
+                           value="<c:out value='${employee.salary}'/>" required>
+                    <div class="valid-feedback">Valid input!</div>
+                    <div class="invalid-feedback">Please provide a valid input!</div>
                 </div>
                 <div class="form-group">
                     <%--@declare id="job_id"--%><label for="job_id">Job Position:</label>
@@ -190,9 +188,6 @@
                             <option value="${job.jobId}"><c:out value="${job.jobName}"></c:out></option>
                         </c:forEach>
                     </select>
-                    <%--                    <p colspan="2" align="center">--%>
-                    <%--                        <input type="submit" value="Save"/>--%>
-                    <%--                    </p>--%>
                     <p colspan="2" align="center">
                         <input type="submit" value="Save" class="btn btn-success btn-lg btn-block rounded-pill"/>
                     </p>
@@ -201,4 +196,16 @@
         </div>
     </div>
 </div>
+<script>
+    function check(id) {
+        const input = document.getElementById(id);
+        if (input.checkValidity()) {
+            input.classList.add('is-valid');
+            input.classList.remove('is-invalid');
+        } else {
+            input.classList.add('is-invalid');
+            input.classList.remove('is-valid');
+        }
+    }
+</script>
 
