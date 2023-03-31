@@ -37,7 +37,6 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
             preparedStatement.setDate(5, new java.sql.Date(employee.getEndDate().getTime()));
             preparedStatement.setFloat(6, employee.getSalary());
             preparedStatement.setInt(7, employee.getJob().getjobId());
-            preparedStatement.setInt(8, employee.getId());
             System.out.println(preparedStatement);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -56,6 +55,8 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
             statement.setDate(5, new java.sql.Date(employee.getEndDate().getTime()));
             statement.setFloat(6, employee.getSalary());
             statement.setInt(7, employee.getJob().getjobId());
+            statement.setInt(8, employee.getId());
+
             rowUpdated = statement.executeUpdate() > 0;
 
         } catch (SQLException e) {

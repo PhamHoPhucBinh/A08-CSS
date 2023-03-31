@@ -145,7 +145,6 @@ public class EmployeeServlet extends HttpServlet {
         String name = request.getParameter("name");
         String address = request.getParameter("address");
         float salary = Float.parseFloat(request.getParameter("salary"));
-        // date data
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setLenient(false);
         Date birthday = null, startDate = null, endDate = null;
@@ -156,12 +155,11 @@ public class EmployeeServlet extends HttpServlet {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        //
         int jobId = Integer.parseInt(request.getParameter("job_id"));
         Job job = jobService.findById(jobId);
         Employee employee = new Employee(name, birthday, address, startDate, endDate, salary, job);
         employeeService.add(employee);
-        response.sendRedirect("/EmployeeServlet?isCreate=true");
+        response.sendRedirect("/EmployeeServlet?isCreate=1");
     }
 
     private void updateData(HttpServletRequest request, HttpServletResponse response)
@@ -184,7 +182,6 @@ public class EmployeeServlet extends HttpServlet {
         Job job = jobService.findById(jobId);
         Employee book = new Employee(id, name, birthday, address, startDate, endDate, salary, job);
         employeeService.update(book);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("user/list.jsp");
-        dispatcher.forward(request, response);
+        response.sendRedirect("/EmployeeServlet");
     }
 }

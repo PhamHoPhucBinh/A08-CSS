@@ -107,6 +107,7 @@
     <!-- Add Bootstrap JS -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Add custom style -->
+    <link rel="stylesheet" href="webjars/izitoast/1.4.0/dist/css/iziToast.min.css">
     <style>
         body {
             background-image: url("https://img.freepik.com/free-vector/gradient-hexagonal-background_23-2148932756.jpg?w=996&t=st=1680235792~exp=1680236392~hmac=00eeb5556276b7e64d7683f45ae997d7721bb54b40828bf1ecc215ea66cad60a");
@@ -128,6 +129,9 @@
     </style>
 </head>
 <body>
+
+
+
 <div class="container">
     <h1 class="header">Employee Infomation</h1>
     <div class="search">
@@ -187,3 +191,15 @@
         </c:forEach>
     </table>
 </div>
+
+    <script src="webjars/izitoast/1.4.0/dist/js/iziToast.min.js" type="text/javascript"></script>
+<c:set var="result" value='<%=request.getParameter("isCreate") %>'/>
+<c:if test="${result > 0}">
+    <script>
+        iziToast.success({
+            position:"topLeft",message: "Create Successfully!"
+        });
+    </script>
+</c:if>
+</body>
+</html>

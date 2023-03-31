@@ -115,7 +115,7 @@
           crossorigin="anonymous">
 </head>
 <style>
-    label{
+    label {
         font-weight: bold;
     }
 </style>
@@ -135,8 +135,29 @@
                 <div class="form-group">
                     <label for="name">Employee Name:</label>
                     <input type="text" class="form-control" id="name" name="name"
-                           value="<c:out value='${employee.name}' />"/>
+                           value="<c:out value='${employee.name}' />" required>
+                    <div class="valid-feedback">Valid input!</div>
+                    <div class="invalid-feedback">Please provide a valid input!</div>
                 </div>
+                <script>
+                    // Get the input element
+                    const input = document.getElementById('name');
+
+                    // Add an event listener to listen for input changes
+                    input.addEventListener('input', function () {
+                        // Check if the input is valid
+                        if (input.checkValidity()) {
+                            // If it is, add the 'is-valid' class and remove the 'is-invalid' class
+                            input.classList.add('is-valid');
+                            input.classList.remove('is-invalid');
+                        } else {
+                            // If it is not, add the 'is-invalid' class and remove the 'is-valid' class
+                            input.classList.add('is-invalid');
+                            input.classList.remove('is-valid');
+                        }
+                    });
+                </script>
+
                 <div class="form-group">
                     <label for="birthday">Birthday:</label>
                     <input type="date" class="form-control" id="birthday" name="birthday"
@@ -169,12 +190,12 @@
                             <option value="${job.jobId}"><c:out value="${job.jobName}"></c:out></option>
                         </c:forEach>
                     </select>
-<%--                    <p colspan="2" align="center">--%>
-<%--                        <input type="submit" value="Save"/>--%>
-<%--                    </p>--%>
-                        <p colspan="2" align="center">
-                            <input type="submit" value="Save" class="btn btn-success btn-lg btn-block rounded-pill"/>
-                        </p>
+                    <%--                    <p colspan="2" align="center">--%>
+                    <%--                        <input type="submit" value="Save"/>--%>
+                    <%--                    </p>--%>
+                    <p colspan="2" align="center">
+                        <input type="submit" value="Save" class="btn btn-success btn-lg btn-block rounded-pill"/>
+                    </p>
                 </div>
             </form>
         </div>
