@@ -18,7 +18,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public boolean update(Employee employee) {
-        return false;
+        return repository.update(employee);
     }
 
     @Override

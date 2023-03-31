@@ -19,7 +19,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     private static final String SELECT_ALL_EMPLOYEE = "select *\n" + "from employee \n";
     private static final String INSERT_EMPLOYEE_SQL = "INSERT INTO employee( name , birthday, address, " + "start_date, end_date, salary, job_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private static final String UPDATE_EMPLOYEE_SQL = "update employee set name = ?,birthday= ?, address =?,start_date =?,end_date=?,salary=?,job_id where id = ?;";
+    private static final String UPDATE_EMPLOYEE_SQL = "update employee set name = ?,birthday= ?, address =?,start_date =?,end_date=?,salary=?,job_id =? where id = ?;";
     private static final String SELECT_EMPLOYEE_BY_ID = "select id,name,birthday,address,start_date,end_date,salary,job_id from employee where id =?";
     private static final String DELETE_EMPLOYEE_SQL = "delete from employee where id = ?;";
     //    private static final String SEARCH_ALL_JOB_NAME = "select * \n" + "from employee as employee join job on employee.job_id =job.job_id\n" + "where job_name like ? ";
@@ -37,6 +37,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
             preparedStatement.setDate(5, new java.sql.Date(employee.getEndDate().getTime()));
             preparedStatement.setFloat(6, employee.getSalary());
             preparedStatement.setInt(7, employee.getJob().getjobId());
+            preparedStatement.setInt(8, employee.getId());
             System.out.println(preparedStatement);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

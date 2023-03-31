@@ -184,7 +184,7 @@ public class EmployeeServlet extends HttpServlet {
         Job job = jobService.findById(jobId);
         Employee book = new Employee(id, name, birthday, address, startDate, endDate, salary, job);
         employeeService.update(book);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("user/edit.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("user/list.jsp");
         dispatcher.forward(request, response);
     }
 }
