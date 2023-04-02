@@ -16,11 +16,13 @@ import static com.utility.Connection.getConnection;
 public class CustomerRepositoryImpl implements CustomerRepository {
     private ProductRepository productRepository = new ProductRepositoryImpl();
 
-    private static final String SELECT_ALL_CUSTOMER = "select * from customer \n;";
+    private static final String SELECT_ALL_CUSTOMER = "SELECT * FROM Customer WHERE IsDelete = FALSE;";
     private static final String INSERT_CUSTOMER_SQL = "INSERT INTO customer( name , birthday, address, phone, product_id) VALUES (?, ?, ?, ?, ?);";
     private static final String UPDATE_CUSTOMER_SQL = "update customer set name = ?,birthday= ?, address =?,phone=? , product_id =? where customer_id = ?;";
     private static final String SELECT_CUSTOMER_BY_ID = "select customer_id,name,birthday,address,product_id from customer where customer_id =?;";
     private static final String DELETE_CUSTOMER_SQL = "delete from customer where customer_id = ?;";
+
+    private static final String SOFT_DELETE_CUSTOMER = "update customer set IsDelete = TRUE where customer_id =?;";
 
     private void printSQLException(SQLException ex) {
         for (Throwable e : ex) {
@@ -51,8 +53,9 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                 String address = rs.getString("address");
                 String phone = rs.getString("phone");
                 int productId = rs.getInt("product_id");
+                boolean isDelete = rs.getBoolean("isDelete");
                 Product product = productRepository.findById(productId);
-                customerList.add(new Customer(customerId, customerName, birthday, address, phone, product));
+                customerList.add(new Customer(customerId, customerName, birthday, address, phone, product, isDelete));
             }
         } catch (SQLException e) {
             printSQLException(e);
@@ -73,8 +76,9 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                 String address = rs.getString("address");
                 String phone = rs.getString("phone");
                 int productId = rs.getInt("product_id");
+                boolean isDelete = rs.getBoolean("isDelete");
                 Product product = productRepository.findById(productId);
-                customer = new Customer(customerId, name, birthday, address, phone, product);
+                customer = new Customer(customerId, name, birthday, address, phone, product, isDelete);
             }
         } catch (SQLException e) {
             printSQLException(e);
@@ -120,6 +124,16 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     public boolean remove(int customerId) throws SQLException {
         boolean rowDeleted;
         try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE_CUSTOMER_SQL);) {
+            statement.setInt(1, customerId);
+            rowDeleted = statement.executeUpdate() > 0;
+        }
+        return rowDeleted;
+    }
+
+    @Override
+    public boolean SoftDelete(int customerId) throws SQLException {
+        boolean rowDeleted;
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(SOFT_DELETE_CUSTOMER);) {
             statement.setInt(1, customerId);
             rowDeleted = statement.executeUpdate() > 0;
         }

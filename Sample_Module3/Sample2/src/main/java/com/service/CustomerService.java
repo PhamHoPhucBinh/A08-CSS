@@ -13,5 +13,7 @@ public interface CustomerService {
     boolean update(Customer customer);
     boolean remove(int customerId) throws SQLException;
 
+    boolean soft_remove(int customerId) throws SQLException;
+
 //    List<Customer> findByProductName(String productName);
 }

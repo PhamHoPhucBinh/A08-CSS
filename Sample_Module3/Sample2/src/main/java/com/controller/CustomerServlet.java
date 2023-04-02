@@ -145,7 +145,7 @@ public class CustomerServlet extends HttpServlet {
         }
         int productId = Integer.parseInt(request.getParameter("productId"));
         Product product = productService.findById(productId);
-        Customer customer = new Customer(customerName, birthday, address, phone, product);
+        Customer customer = new Customer(customerName, birthday, address, phone, product, false);
         customerService.add(customer);
         response.sendRedirect("/CustomerServlet?isCreate=1");
     }
@@ -166,7 +166,7 @@ public class CustomerServlet extends HttpServlet {
         }
         int productId = Integer.parseInt(request.getParameter("productId"));
         Product product = productService.findById(productId);
-        Customer book = new Customer(customerId, customerName, birthday, address, phone, product);
+        Customer book = new Customer(customerId, customerName, birthday, address, phone, product,false);
         customerService.update(book);
         response.sendRedirect("/CustomerServlet");
     }
@@ -174,7 +174,8 @@ public class CustomerServlet extends HttpServlet {
     private void deleteData(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
         int customerId = Integer.parseInt(request.getParameter("customerId"));
-        customerService.remove(customerId);
+        //customerService.remove(customerId); //this is hard-delete
+        customerService.soft_remove(customerId);
         List<Customer> customerList = customerService.findAll();
         request.setAttribute("customerList", customerList);
         RequestDispatcher dispatcher = request.getRequestDispatcher("user/list.jsp");

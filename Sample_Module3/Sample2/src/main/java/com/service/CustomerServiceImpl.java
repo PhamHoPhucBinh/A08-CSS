@@ -31,6 +31,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public boolean soft_remove(int customerId) throws SQLException {
+        return repository.SoftDelete(customerId);
+    }
+
+    @Override
     public Customer findById(int customerId) {
         return repository.findById(customerId);
     }

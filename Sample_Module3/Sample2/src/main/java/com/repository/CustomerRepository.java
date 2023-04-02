@@ -15,4 +15,6 @@ public interface CustomerRepository {
     boolean update(Customer customer);
 
     boolean remove(int customerId) throws SQLException;
+
+    boolean SoftDelete(int customerId) throws SQLException;
 }

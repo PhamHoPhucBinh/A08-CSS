@@ -10,21 +10,25 @@ private String address;
 private String phone;
 private Product product;
 
-    public Customer(int customerId, String customerName, Date birthday, String address, String phone, Product product) {
+private boolean IsDelete;
+
+    public Customer(int customerId, String customerName, Date birthday, String address, String phone, Product product, boolean isDelete) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.birthday = birthday;
         this.address = address;
         this.phone = phone;
         this.product = product;
+        this.IsDelete = isDelete;
     }
 
-    public Customer(String customerName, Date birthday, String address, String phone, Product product) {
+    public Customer(String customerName, Date birthday, String address, String phone, Product product, boolean isDelete) {
         this.customerName = customerName;
         this.birthday = birthday;
         this.address = address;
         this.phone = phone;
         this.product = product;
+        this.IsDelete = isDelete;
     }
 
     public Customer() {}
@@ -75,5 +79,13 @@ private Product product;
 
     public void setProduct(Product productId) {
         this.product = product;
+    }
+
+    public boolean isDelete() {
+        return IsDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        IsDelete = delete;
     }
 }
