@@ -140,20 +140,6 @@
             <input type="submit" value="search" name="action">
         </form>
     </div>
-    <table class="table">
-        <c:forEach var="s" items="${job_id}">
-            <tr>
-                <td>${s.id}</td>
-                <td>${s.name}</td>
-                <td>${s.birthday}</td>
-                <td>${s.address}</td>
-                <td>${s.startDate}</td>
-                <td>${s.endDate}</td>
-                <td>${s.salary}</td>
-                <td>${s.job}</td>
-            </tr>
-        </c:forEach>
-    </table>
     <div class="container">
         <a href="/EmployeeServlet?action=create" class="btn btn-success btn-lg" style="float: left">ADD</a>
         <a href="/EmployeeServlet" class="btn btn-warning btn-lg" style="float: right">Refresh</a>

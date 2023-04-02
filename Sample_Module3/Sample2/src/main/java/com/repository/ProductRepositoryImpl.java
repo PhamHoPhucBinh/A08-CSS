@@ -1,35 +1,31 @@
-package com.employee_management.repository;
+package com.repository;
 
-import com.employee_management.model.Job;
+import com.model.Product;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import static com.employee_management.utility.ConnectionUtil.getConnection;
+import static com.utility.Connection.getConnection;
 
-public class JobRepositoryImpl implements JobRepository {
-    private static final String SELECT_ALL_JOB = "Select * from job";
-    private static final String SELECT_JOB_BY_ID = "Select * from job where job_id = ?";
+public class ProductRepositoryImpl implements ProductRepository{
 
-
+    private static final String SELECT_ALL_PRODUCT = "Select * from product;";
+    private static final String SELECT_PRODUCT_BY_ID = "Select * from product where product_id = ?;";
     @Override
-    public Job findById(int jobId) {
+    public Product findById(int productId) {
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_JOB_BY_ID)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PRODUCT_BY_ID)) {
             System.out.println(preparedStatement);
-            preparedStatement.setInt(1, jobId);
+            preparedStatement.setInt(1, productId);
             ResultSet rs = preparedStatement.executeQuery();
-
             if (rs.next()) {
-                String jobName = rs.getString("job_name");
-                float minSalary = rs.getFloat("min_salary");
-                float maxSalary = rs.getFloat("max_salary");
-                return new Job(jobId, jobName,minSalary,maxSalary);
+                String productName = rs.getString("product_name");
+                float price = rs.getFloat("price");
+                return new Product(productId, productName,price);
             }
         } catch (SQLException e) {
             printSQLException(e);
@@ -38,23 +34,22 @@ public class JobRepositoryImpl implements JobRepository {
     }
 
     @Override
-    public List<Job> findAll() {
-        List<Job> jobList = new ArrayList<>();
+    public List<Product> findAll() {
+        List<Product> productsList = new ArrayList<>();
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_JOB)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_PRODUCT)) {
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                int jobID = rs.getInt("job_id");
-                String jobName = rs.getString("job_name");
-                float minSalary = rs.getFloat("min_salary");
-                float maxSalary = rs.getFloat("max_salary");
-                jobList.add(new Job(jobID,jobName,minSalary,maxSalary));
+                int productId = rs.getInt("product_id");
+                String productName = rs.getString("product_name");
+                float price = rs.getFloat("price");
+                productsList.add(new Product(productId,productName,price));
             }
         } catch (SQLException e) {
             printSQLException(e);
         }
-        return jobList;
+        return productsList;
     }
 
     private void printSQLException(SQLException ex) {
