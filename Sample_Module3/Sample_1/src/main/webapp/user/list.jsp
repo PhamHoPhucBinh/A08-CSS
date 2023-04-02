@@ -114,6 +114,7 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
+
         .header {
             font-family: Broadway, sans-serif;
             text-align: center;
@@ -128,7 +129,6 @@
     </style>
 </head>
 <body>
-
 
 
 <div class="container">
@@ -182,21 +182,26 @@
                 <td><fmt:formatNumber value="${employee.salary}" pattern="###,###"/></td>
                 <td><c:out value="${employee.job.jobName}"/></td>
                 <td>
-                    <a href="/EmployeeServlet?action=edit&id=${employee.id}">Edit</a></td>
+                    <div class="container">
+                        <a href="/EmployeeServlet?action=edit&id=${employee.id}" class="btn btn-primary btn-lg">Edit</a>
+                    </div>
+                </td>
                 <td>
-                    <a href="/EmployeeServlet?action=delete&id=${employee.id}">Delete</a>
+                    <div>
+                        <a href="/EmployeeServlet?action=delete&id=${employee.id}" class="btn btn-danger">Delete</a>
+                    </div>
                 </td>
             </tr>
         </c:forEach>
     </table>
 </div>
 
-    <script src="webjars/izitoast/1.4.0/dist/js/iziToast.min.js" type="text/javascript"></script>
+<script src="webjars/izitoast/1.4.0/dist/js/iziToast.min.js" type="text/javascript"></script>
 <c:set var="result" value='<%=request.getParameter("isCreate") %>'/>
 <c:if test="${result > 0}">
     <script>
         iziToast.success({
-            position:"topLeft",message: "Create Successfully!"
+            position: "topLeft", message: "Create Successfully!"
         });
     </script>
 </c:if>
