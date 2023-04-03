@@ -22,6 +22,23 @@ private boolean IsDelete;
         this.IsDelete = isDelete;
     }
 
+    public Customer(int customerId, String customerName, Date birthday, String address, String phone, Product product) {
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.birthday = birthday;
+        this.address = address;
+        this.phone = phone;
+        this.product = product;
+    }
+
+    public Customer(String customerName, Date birthday, String address, String phone, Product product) {
+        this.customerName = customerName;
+        this.birthday = birthday;
+        this.address = address;
+        this.phone = phone;
+        this.product = product;
+    }
+
     public Customer(String customerName, Date birthday, String address, String phone, Product product, boolean isDelete) {
         this.customerName = customerName;
         this.birthday = birthday;

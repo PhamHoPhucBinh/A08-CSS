@@ -41,7 +41,7 @@ public class CustomerServlet extends HttpServlet {
                 case "create":
                     showNewForm(request, response);
                     break;
-                case "edit":
+                case "update":
                     showEditForm(request, response);
                     break;
                 case "delete":
@@ -76,9 +76,9 @@ public class CustomerServlet extends HttpServlet {
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
         int customerId = Integer.parseInt(request.getParameter("customerId"));
-        Customer existingEmployee = customerService.findById(customerId);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("user/edit.jsp");
-        request.setAttribute("employee", existingEmployee);
+        Customer existingCustomer = customerService.findById(customerId);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("user/update.jsp");
+        request.setAttribute("customer", existingCustomer);
         request.setAttribute("productList", productService.findAll());
         dispatcher.forward(request, response);
     }
@@ -116,7 +116,7 @@ public class CustomerServlet extends HttpServlet {
                 case "create":
                     addData(request, response);
                     break;
-                case "edit":
+                case "update":
                     updateData(request, response);
                     break;
                 case "delete":

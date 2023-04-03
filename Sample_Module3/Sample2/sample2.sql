@@ -41,3 +41,6 @@ VALUES
 
 select * from customer;
 select * from product;
+
+ALTER TABLE Customer
+ADD COLUMN IsDelete BOOLEAN NOT NULL DEFAULT FALSE;

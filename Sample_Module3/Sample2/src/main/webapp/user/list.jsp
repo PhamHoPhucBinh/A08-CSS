@@ -79,7 +79,7 @@
                 <td><c:out value="${customer.product.productName}"/></td>
                 <td>
                     <div class="container">
-                        <a href="/CustomerServlet?action=edit&id=${customer.customerId}" class="btn btn-primary btn-lg">Edit</a>
+                        <a href="/CustomerServlet?action=update&customerId=${customer.customerId}" class="btn btn-primary btn-lg">Update</a>
                     </div>
                 </td>
                 <td>
