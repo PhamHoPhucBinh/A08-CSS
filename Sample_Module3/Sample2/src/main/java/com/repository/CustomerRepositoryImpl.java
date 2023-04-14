@@ -21,7 +21,6 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     private static final String UPDATE_CUSTOMER_SQL = "update customer set name = ?,birthday= ?, address =?,phone=? , product_id =? where customer_id = ?;";
     private static final String SELECT_CUSTOMER_BY_ID = "select customer_id,name,birthday,address,product_id from customer where customer_id =?;";
     private static final String DELETE_CUSTOMER_SQL = "delete from customer where customer_id = ?;";
-
     private static final String SOFT_DELETE_CUSTOMER = "update customer set IsDelete = TRUE where customer_id =?;";
 
     private void printSQLException(SQLException ex) {
